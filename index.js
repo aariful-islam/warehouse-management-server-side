@@ -35,7 +35,29 @@ async function run() {
             res.send(products);
         });
 
-        
+        app.get('/product/:id',async(req,res)=>{
+            const id =req.params.id;
+            const query={_id:ObjectId(id)}
+            const result= await productCollection.findOne(query);
+            res.send(result);
+        });
+        // app.post('/product',async(req,res)=>{
+        //     const newItem =req.body;
+        //     const result=await productCollection.insertOne(newItem)
+        //     res.send(result)
+        // });
+
+        app.delete('/product/:id',async(req,res)=>{
+            const id =req.params.id;
+            const query={_id:ObjectId(id)}
+            const result= await productCollection.deleteOne(query);
+            res.send(result);
+        });
+        app.post('/product', async(req, res) =>{
+            const newItem = req.body;
+            const result = await productCollection.insertOne(newItem);
+            res.send(result);
+        });
 
     }
     finally {
