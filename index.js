@@ -41,11 +41,7 @@ async function run() {
             const result= await productCollection.findOne(query);
             res.send(result);
         });
-        // app.post('/product',async(req,res)=>{
-        //     const newItem =req.body;
-        //     const result=await productCollection.insertOne(newItem)
-        //     res.send(result)
-        // });
+        
 
         app.delete('/product/:id',async(req,res)=>{
             const id =req.params.id;
@@ -58,6 +54,35 @@ async function run() {
             const result = await productCollection.insertOne(newItem);
             res.send(result);
         });
+
+        app.get('/order', async (req, res) => {
+           
+            const email = req.query.email;
+            console.log(email)
+            
+                const query = { email: email };
+                const cursor = productCollection.find(query);
+                const orders = await cursor.toArray();
+                res.send(orders);
+            
+        })
+
+
+        app.put('/product/:id', async(req, res) =>{
+            const id = req.params.id;
+            const updatedQuantity = req.body;
+            const filter = {_id: ObjectId(id)};
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    quantity: updatedQuantity.total
+                   
+                }
+            };
+            const result = await productCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+
+        })
 
     }
     finally {
