@@ -55,7 +55,7 @@ async function run() {
             res.send(result);
         });
 
-        app.get('/order', async (req, res) => {
+        app.get('/product', async (req, res) => {
            
             const email = req.query.email;
             console.log(email)
